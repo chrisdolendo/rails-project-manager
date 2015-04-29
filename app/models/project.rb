@@ -3,6 +3,7 @@ class Project < ActiveRecord::Base
   # simpler version:
   has_many :project_users
   has_many :users, through: :project_users
+  has_many :tasks
 
 
   # # complicated version: 
