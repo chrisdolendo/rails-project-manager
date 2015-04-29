@@ -8,3 +8,9 @@
    </td>
   </tr>
 <% end %>
+
+<script>
+    $(".edit_task").on("ajax:success", function(){
+      $(this).closest('tr').hide();
+    });  
+</script>

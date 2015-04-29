@@ -32,10 +32,5 @@
   $(document).ready(function(){
     var projectId = <%= @project.id %>
     getTasks(projectId)
-
-    $(".edit_task").on("ajax:success", function(){
-      $(this).closest('tr').hide();
-    });
-
   });
 </script>
