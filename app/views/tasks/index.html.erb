@@ -1,0 +1,10 @@
+<% @tasks.each do |task| %>
+  <tr>
+    <td><%= task.name %></td>
+    <td>
+      <%= form_for task, url: project_task_path(@project, task), method: :delete, remote: true do |f|%>
+        <%= f.submit "Delete(Form)" %>
+      <% end %>
+   </td>
+  </tr>
+<% end %>

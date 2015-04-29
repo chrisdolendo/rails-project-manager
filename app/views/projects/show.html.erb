@@ -14,23 +14,11 @@
     <%= f.submit "Add Task" %>  
   <% end %>
 
-<table class="table">
+<table class="table" id="task-table">
   <tr>
     <td>Task Name</td>
     <td>Delete</td>
   </tr>
-
-  <% @tasks.each do |task| %>
-    <tr>
-      <td><%= task.name %></td>
-      <td>
-        <%= form_for task, url: project_task_path(@project, task), method: :delete, remote: true do |f|%>
-          <%= f.submit "Delete(Form)" %>
-        <% end %>
-     </td>
-    </tr>
-  <% end %>
-
 </table>
 
 
@@ -40,7 +28,14 @@
 
 
 <script>
-  $(".edit_task").on("ajax:success", function(){
-    $(this).closest('tr').hide();
+
+  $(document).ready(function(){
+    var projectId = <%= @project.id %>
+    getTasks(projectId)
+
+    $(".edit_task").on("ajax:success", function(){
+      $(this).closest('tr').hide();
+    });
+
   });
 </script>

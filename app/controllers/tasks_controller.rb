@@ -1,8 +1,13 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:index, :create]
+
+  def index
+    @tasks = @project.tasks
+    render template: 'tasks/index.html.erb', layout: false 
+  end
 
   def create
-    @project = Project.find(params[:project_id])
     @task = Task.create(task_params)
     @project.tasks << @task
     redirect_to project_path(@project)
@@ -24,6 +29,10 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:name, :description, :difficulty_level)
+  end
+
+  def set_project 
+    @project = Project.find(params[:project_id])
   end
 
 end
