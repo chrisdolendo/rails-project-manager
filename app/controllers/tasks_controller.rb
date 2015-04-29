@@ -12,7 +12,7 @@ class TasksController < ApplicationController
     @task.destroy
     respond_to do |format|
       format.html { redirect_to root_url }
-      format.json { render :json => "success" }
+      format.json { head :ok }
     end    
   end 
 
