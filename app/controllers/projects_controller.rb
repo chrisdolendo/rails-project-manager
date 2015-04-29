@@ -1,5 +1,8 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :screen_user_access
+  before_action :screen_show_access, only: [:show]
+  before_action :screen_modification_access, only: [:edit, :update, :destroy]
 
   # GET /projects
   # GET /projects.json
@@ -10,7 +13,6 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @tasks = @project.tasks
   end
 
   # GET /projects/new
@@ -29,7 +31,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        ProjectUser.create(project_id: @project, user_id: current_user.id, role: Project.role_ranking("owner"))
+        ProjectUser.create(project_id: @project.id, user_id: current_user.id, role: Project.role_ranking("owner"))
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render action: 'show', status: :created, location: @project }
       else
@@ -73,4 +75,26 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:name)
     end
+
+    def screen_user_access
+      if current_user == nil
+        redirect_to new_user_session_path
+      end
+    end
+
+    def screen_show_access
+      if ProjectUser.where(user_id: current_user.id, project_id: @project.id).empty?
+        flash[:alert] = "Unable to complete request. You do not have permissions to view this project."
+        redirect_to projects_path and return
+      end
+    end
+
+    def screen_modification_access
+      if ProjectUser.where(user_id: current_user.id, project_id: @project.id, role: Project.role_ranking("owner") ).empty?
+        flash[:alert] = "Unable to complete request. You do not have permissions to view this project."
+        redirect_to projects_path and return
+      end      
+    end
+
+
 end
