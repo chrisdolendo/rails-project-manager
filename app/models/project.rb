@@ -5,6 +5,8 @@ class Project < ActiveRecord::Base
   has_many :users, through: :project_users
   has_many :tasks
 
+  accepts_nested_attributes_for :project_users
+
 
   # # complicated version: 
 
@@ -21,6 +23,13 @@ class Project < ActiveRecord::Base
 
   def self.role_ranking(role)
     ROLE[role.to_sym]
+  end
+
+  def self.return_role_options
+    [
+      ["owner", ROLE[:owner]],
+      ["viewer", ROLE[:viewer]]
+    ]
   end
 
 end

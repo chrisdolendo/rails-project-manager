@@ -14,6 +14,12 @@
   <div class="field">
     <%= f.label :name %><br>
     <%= f.text_field :name %>
+    <%= f.label :project_users %>
+    <%= f.fields_for :project_users do |field| %>
+      <p><%= field.collection_select :user_id, User.all, :id, :email %>
+      <%= field.select :role, Project.return_role_options %>
+      </p>
+    <% end %>
   </div>
   <div class="actions">
     <%= f.submit %>
