@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
     "#{fname} #{lname}"
   end
 
+  def is_admin?
+    self.role == ROLE[:admin]
+  end
+
 
 
 end

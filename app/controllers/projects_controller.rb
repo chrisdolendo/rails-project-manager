@@ -83,14 +83,18 @@ class ProjectsController < ApplicationController
     end
 
     def screen_show_access
-      if ProjectUser.where(user_id: current_user.id, project_id: @project.id).empty?
+      if current_user.is_admin? || ProjectUser.where(user_id: current_user.id, project_id: @project.id).any?
+        return
+      else
         flash[:alert] = "Unable to complete request. You do not have permissions to view this project."
         redirect_to projects_path and return
       end
     end
 
     def screen_modification_access
-      if ProjectUser.where(user_id: current_user.id, project_id: @project.id, role: Project.role_ranking("owner") ).empty?
+      if current_user.is_admin? || ProjectUser.where(user_id: current_user.id, project_id: @project.id, role: Project.role_ranking("owner") ).any?
+        return
+      else
         flash[:alert] = "Unable to complete request. You do not have permissions to view this project."
         redirect_to projects_path and return
       end      
