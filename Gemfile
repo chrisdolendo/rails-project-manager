@@ -60,6 +60,8 @@ gem 'quiet_assets'
 
 gem 'thin'
 
+gem 'font-awesome-rails'
+
 #debugging
 gem 'pry'
 
