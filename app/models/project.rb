@@ -8,14 +8,19 @@ class Project < ActiveRecord::Base
 
   # # complicated version: 
 
-  # ROLE = {
-  #   viewer: 1,
-  #   owner:  10
-  # }
+  ROLE = {
+    viewer: 1,
+    owner:  10
+  }
   
-  # has_many :project_viewers, class_name: :ProjectUser, conditions: {role: ROLE[:viewer]}
-  # has_many :viewers, source: :user, through: :project_viewers
+  has_many :project_viewers, class_name: :ProjectUser, conditions: {role: ROLE[:viewer]}
+  has_many :viewers, source: :user, through: :project_viewers
 
-  # has_many :project_owners, class_name: :ProjectUser, conditions: {role: ROLE[:owner]}
-  # has_many :owners, source: :user, through: :project_owners
+  has_many :project_owners, class_name: :ProjectUser, conditions: {role: ROLE[:owner]}
+  has_many :owners, source: :user, through: :project_owners
+
+  def self.role_ranking(role)
+    ROLE[role.to_sym]
+  end
+
 end
