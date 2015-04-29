@@ -60,6 +60,9 @@ gem 'quiet_assets'
 
 gem 'thin'
 
+#debugging
+gem 'pry'
+
 # use thin webserver
 # gem 'thin'
 
